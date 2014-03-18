@@ -46,6 +46,8 @@ namespace ServiceStack.OrmLite.SqlServer
             return (UseUnicode ? "N'" : "'") + paramValue.Replace("'", "''") + "'";
         }
 
+		public static string RowVersionFieldName = "RowVersion";
+
 		public override IDbConnection CreateConnection(string connectionString, Dictionary<string, string> options)
 		{
 			var isFullConnectionString = connectionString.Contains(";");
@@ -272,6 +274,7 @@ namespace ServiceStack.OrmLite.SqlServer
                                              fieldDef.FieldType,
                                              fieldDef.IsPrimaryKey,
                                              fieldDef.AutoIncrement,
+                                             fieldDef.IsRowVersion,
                                              fieldDef.IsNullable,
                                              fieldDef.FieldLength,
                                              fieldDef.Scale,
@@ -289,6 +292,7 @@ namespace ServiceStack.OrmLite.SqlServer
                                              fieldDef.FieldType,
                                              fieldDef.IsPrimaryKey,
                                              fieldDef.AutoIncrement,
+                                             fieldDef.IsRowVersion,
                                              fieldDef.IsNullable,
                                              fieldDef.FieldLength,
                                              fieldDef.Scale,
@@ -312,10 +316,15 @@ namespace ServiceStack.OrmLite.SqlServer
                                  GetQuotedValue("COLUMN"));
         }
 
-        public override string GetColumnDefinition(string fieldName, Type fieldType, bool isPrimaryKey, bool autoIncrement, 
-            bool isNullable, int? fieldLength, int? scale, string defaultValue, string customFieldDefinition)
+        protected override string GetRowVersionColumnDefinition(Type fieldType)
         {
-            var definition = base.GetColumnDefinition(fieldName, fieldType, isPrimaryKey, autoIncrement,
+            return " RowVersion NOT NULL";
+        }
+
+        public override string GetColumnDefinition(string fieldName, Type fieldType, bool isPrimaryKey, bool autoIncrement, 
+            bool isRowVersion, bool isNullable, int? fieldLength, int? scale, string defaultValue, string customFieldDefinition)
+        {
+            var definition = base.GetColumnDefinition(fieldName, fieldType, isPrimaryKey, autoIncrement, isRowVersion,
                 isNullable, fieldLength, scale, defaultValue, customFieldDefinition);
 
             if (fieldType == typeof(Decimal) && fieldLength != DefaultDecimalPrecision && scale != DefaultDecimalScale)

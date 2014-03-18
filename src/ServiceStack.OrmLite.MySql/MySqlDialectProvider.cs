@@ -178,6 +178,7 @@ namespace ServiceStack.OrmLite.MySql
                 fieldDefinition.FieldType,
                 fieldDefinition.IsPrimaryKey, 
                 fieldDefinition.AutoIncrement, 
+                fieldDefinition.IsRowVersion,
                 fieldDefinition.IsNullable, 
                 fieldDefinition.FieldLength, 
                 null, 

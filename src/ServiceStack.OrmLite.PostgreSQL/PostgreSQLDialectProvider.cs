@@ -43,6 +43,7 @@ namespace ServiceStack.OrmLite.PostgreSQL
             Type fieldType,
             bool isPrimaryKey,
             bool autoIncrement,
+            bool isRowVersion,
             bool isNullable,
             int? fieldLength,
             int? scale,

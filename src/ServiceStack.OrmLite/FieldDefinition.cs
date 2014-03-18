@@ -41,6 +41,8 @@ namespace ServiceStack.OrmLite
 
         public bool AutoIncrement { get; set; }
 
+        public bool IsRowVersion { get; set; }
+
         public bool IsNullable { get; set; }
 
         public bool IsIndexed { get; set; }

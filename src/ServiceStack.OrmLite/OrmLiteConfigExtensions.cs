@@ -136,6 +136,7 @@ namespace ServiceStack.OrmLite
                 var referenceAttr  = propertyInfo.FirstAttribute<ReferenceAttribute>();
                 var foreignKeyAttr = propertyInfo.FirstAttribute<ForeignKeyAttribute>();
                 var customFieldAttr = propertyInfo.FirstAttribute<CustomFieldAttribute>();
+                var rowVersionAttr = propertyInfo.FirstAttribute<RowVersionAttribute>();
 
                 var fieldDefinition = new FieldDefinition {
                     Name = propertyInfo.Name,
@@ -145,6 +146,7 @@ namespace ServiceStack.OrmLite
                     PropertyInfo = propertyInfo,
                     IsNullable = isNullable,
                     IsPrimaryKey = isPrimaryKey,
+                    IsRowVersion = rowVersionAttr != null,
                     AutoIncrement =
                         isPrimaryKey &&
                         propertyInfo.HasAttributeNamed(typeof(AutoIncrementAttribute).Name),
